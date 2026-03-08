@@ -78,21 +78,3 @@ argument-hint: [project-path]
 | `$1` | 第二个参数 |
 | `` !`command` `` | 预处理器 shell 执行 |
 
-## 完整示例
-
-```markdown
----
-description: Validate plugin structure and configuration
-allowed-tools: Read, Glob, Bash
-argument-hint: [plugin-dir]
----
-
-验证 Plugin 结构是否符合规范。
-
-## 步骤
-
-1. 检查 `.claude-plugin/` 目录内容
-2. 验证 plugin.json 字段和路径格式
-3. 检查 Skill description 是否符合 CSO 规则
-4. 输出验证报告
-```

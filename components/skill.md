@@ -111,19 +111,7 @@ skills/
 
 #### 按需加载路由
 
-SKILL.md 中使用路由表按状态/子命令加载对应 procedures：
-
-```markdown
-## 流程
-
-根据输入子命令加载对应 procedures：
-
-| 子命令 | Procedures 文件 | 说明 |
-|--------|----------------|------|
-| start  | start-procedures.md | 启动开发模式 |
-| review | review-procedures.md | 代码审查 |
-| done   | done-procedures.md | 完成交付 |
-```
+SKILL.md 中使用路由表按子命令加载对应 procedures（如 `start -> start-procedures.md`、`review -> review-procedures.md`）。
 
 #### Token 预算
 

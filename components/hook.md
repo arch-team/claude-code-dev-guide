@@ -165,22 +165,7 @@ hooks.json 结构与上方 command 类型示例相同：`{ "hooks": { "EventName
 
 ### Skill 级 Hook
 
-在 SKILL.md frontmatter 的 `hooks` 字段中定义，仅在该 Skill 激活时生效：
-
-```yaml
----
-name: my-skill
-description: Use when...
-hooks:
-  PreToolUse:
-    - matcher:
-        tool_name: "Write|Edit"
-      hooks:
-        - type: prompt
-          prompt: "验证此写入是否符合当前 Skill 的约束..."
-          timeout: 15
----
-```
+在 SKILL.md frontmatter 的 `hooks` 字段中定义，仅在该 Skill 激活时生效。完整 YAML 示例见 `skill.md` Skill Hooks 节。
 
 **设计模式**：全局 hooks.json 做通用安全检查；Skill 级 hooks 做 Skill 特定的精细控制。
 

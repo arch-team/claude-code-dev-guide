@@ -79,25 +79,4 @@ Anthropic 官方 plugin-dev Plugin 提供综合验证能力：
 | agent-creator | Agent | AI 辅助 Agent 创建 | 新增 Agent 定义时 |
 | `/plugin validate` | Command | 内置命令，验证 plugin.json 基本结构 | 快速检查 |
 
-**安装方法**：
-
-```
-/plugin install plugin-dev@claude-plugins-official
-```
-
-**推荐使用顺序**：
-
-1. 通用质量清单全部通过
-2. `/plugin validate`（快速结构检查）
-3. plugin-validator Agent（综合验证）
-4. skill-reviewer Agent（Skill 质量审查，仅新增/修改的 Skill）
-
-## 自动化验证（可选）
-
-如项目配备了验证脚本（如 `scripts/validate-plugin.sh`），从 Plugin 根目录运行：
-
-```bash
-bash scripts/validate-plugin.sh .
-```
-
-未配备脚本时，使用上方验证命令逐项手动检查，或安装 `plugin-dev` 官方工具执行 `/plugin validate`。
+安装：`/plugin install plugin-dev@claude-plugins-official`。推荐顺序：通用清单 -> `/plugin validate` -> plugin-validator Agent -> skill-reviewer Agent。

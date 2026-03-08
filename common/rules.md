@@ -45,9 +45,7 @@
 | Procedures 文件 | `*-procedures.md` | `skills/my-feature/main-procedures.md` |
 | Agent 文件 | kebab-case `.md` | `agents/code-reviewer.md` |
 | Hook 脚本 | kebab-case，带扩展名 | `hooks/check-safety.sh` |
-| Command 文件 | kebab-case `.md` | `commands/validate.md` |
-| Rules 文件 | kebab-case `.md` | `rules/main-rules.md` |
-| Knowledge 文件 | kebab-case `.md` | `knowledge/theory.md` |
+| Command / Rules / Knowledge | kebab-case `.md` | `commands/validate.md`, `rules/main-rules.md` |
 
 **一致性要求**：同一项目内不混合命名风格。Skill 目录名即 Skill 名称，也用于命名空间（`plugin-name:skill-name`）。
 

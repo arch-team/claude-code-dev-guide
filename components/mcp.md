@@ -46,26 +46,7 @@
 | `args` | string[] | 否 | 命令行参数 |
 | `env` | object | 否 | 环境变量键值对，支持变量展开 |
 
-**多 Server 示例**：
-
-```json
-{
-  "mcpServers": {
-    "database": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-postgres"],
-      "env": { "DATABASE_URL": "${DB_CONNECTION_STRING}" }
-    },
-    "filesystem": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "./data"],
-      "env": {}
-    }
-  }
-}
-```
-
----
+多个 Server 时在 `mcpServers` 下添加多个 key 即可。
 
 ## 环境变量语法
 
