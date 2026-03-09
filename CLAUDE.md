@@ -9,11 +9,13 @@
 |------|---------|---------|
 | `common/rules.md` | 跨组件铁律 IR-3,5,7,8,9 + 共享约束 | 自动加载 |
 | `common/principles.md` | P1-P10 信息架构原则 + 实践指南 | 理解设计决策 |
-| `common/anti-patterns.md` | 8 个跨组件反模式 + 诊断树 | 故障排查 |
-| `common/quality.md` | 验证框架 + 命令库 + 官方工具 | 发布前验证 |
+| `common/anti-patterns.md` | 8 个跨组件反模式 + 诊断树 + 6 步调试法 | 故障排查 |
+| `common/quality.md` | 验证框架 + 命令库 + 测试迭代 + 官方工具 | 发布前验证 |
+| `common/patterns.md` | 6 种 Plugin 模式 + 决策树 | 规划新 Plugin |
+| `common/workflow.md` | 开发生命周期 6 阶段 | 首次开发或回顾流程 |
 | `components/plugin.md` | IR-1 + 目录布局 + manifest + settings | 创建/重构 Plugin |
 | `components/skill.md` | IR-2/CSO + frontmatter + 分拆 + 反模式 | 创建/修改 Skill |
-| `components/hook.md` | IR-4,6 + 事件表 + 脚本 + 反模式 | 添加/调试 Hook |
+| `components/hook.md` | IR-4,6 + 事件表 + 脚本 + 跨平台 + 反模式 | 添加/调试 Hook |
 | `components/agent.md` | frontmatter + memory + Task + worktree | 创建/修改 Agent |
 | `components/command.md` | frontmatter + 命名 + 与 Skill 区别 | 创建/修改 Command |
 | `components/mcp.md` | .mcp.json + 环境变量 + 内嵌 MCP | 配置 MCP Server |

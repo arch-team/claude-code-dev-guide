@@ -180,6 +180,82 @@ hooks.json 结构与上方 command 类型示例相同：`{ "hooks": { "EventName
 | Hook 阻断无效 | 使用了 exit 1 而非 exit 2 | 阻断必须用 exit 2 |
 | Hook 报错但不阻断 | 非 exit 2 的错误码 | 仅 exit 2 是确定性阻断 |
 
+### 跨平台 Hook（polyglot 包装器）
+
+#### 问题
+
+Windows CMD 无法直接执行 `.sh` 脚本，导致 Hook 静默失效——无报错但不执行。macOS/Linux 用户不受影响，但分发给团队时需要兼容 Windows。
+
+#### 解决方案：run-hook.cmd
+
+使用 CMD + bash 双语法同一文件（polyglot）。CMD 执行上半部分，bash 执行下半部分：
+
+```cmd
+: ; # polyglot wrapper -- CMD runs the top half, bash runs the bottom half
+: ; # Usage: run-hook.cmd <script-name> [args...]
+: ; exec bash "${CLAUDE_PLUGIN_ROOT}/hooks/$1.sh" "${@:2}" <&0 ; exit $?
+@echo off
+setlocal
+set "SCRIPT=%CLAUDE_PLUGIN_ROOT%\hooks\%1.sh"
+bash "%SCRIPT%" %2 %3 %4 %5 %6 %7 %8 %9
+exit /b %ERRORLEVEL%
+```
+
+**执行路径**：
+- **bash**（macOS/Linux）：执行 `: ;` 开头的行（`: ;` 是 bash 空操作），`exec bash` 转入目标脚本
+- **CMD**（Windows）：跳过 `: ;` 行（`: ` 是 CMD 标签语法，被忽略），执行 `@echo off` 后续部分
+
+#### 文件结构
+
+```
+hooks/
+├── hooks.json          # command 指向 run-hook.cmd
+├── run-hook.cmd        # polyglot 包装器
+├── check-write.sh      # 实际 Hook 逻辑
+└── check-safety.sh     # 更多 Hook 脚本...
+```
+
+**hooks.json 配置**（指向包装器）：
+```json
+{
+  "hooks": {
+    "PreToolUse": [{
+      "matcher": { "tool_name": "Write|Edit" },
+      "hooks": [{
+        "type": "command",
+        "command": "${CLAUDE_PLUGIN_ROOT}/hooks/run-hook.cmd check-write"
+      }]
+    }]
+  }
+}
+```
+
+#### 跨平台脚本编写规则
+
+Hook 脚本（`.sh`）应遵循以下规则确保跨平台兼容：
+
+| 规则 | 说明 |
+|------|------|
+| 纯 bash 内建优先 | 避免依赖 `sed`、`awk` 等外部工具（Windows bash 可能缺失） |
+| 使用 `jq` 解析 JSON | `jq` 是唯一推荐的外部依赖（需在系统要求中说明） |
+| 路径用 `/` 分隔 | bash 环境下统一使用 POSIX 路径 |
+| 避免 `readlink -f` | macOS 不支持，使用 `cd "$(dirname "$0")" && pwd` 替代 |
+
+#### 系统要求
+
+| 平台 | 要求 |
+|------|------|
+| macOS/Linux | bash（系统自带）、jq（需安装） |
+| Windows | Git Bash 或 WSL（提供 bash）、jq（需安装） |
+
+#### 常见问题
+
+| 症状 | 原因 | 修复 |
+|------|------|------|
+| Windows 上 Hook 不执行 | hooks.json 直接指向 .sh 文件 | 改为指向 run-hook.cmd |
+| `exec bash` 报错 | Windows 无 bash 环境 | 安装 Git for Windows（自带 Git Bash） |
+| 参数传递丢失 | CMD 参数格式差异 | 确保 .sh 脚本通过 `cat` 读取 stdin 而非参数传递 JSON |
+
 ### 验证清单
 
 ```
@@ -188,4 +264,6 @@ hooks.json 结构与上方 command 类型示例相同：`{ "hooks": { "EventName
 [ ] 脚本文件有 shebang 行 + 执行权限                                  [IR-6]
 [ ] exit 2 用于阻断，exit 0 用于放行                                  [P7]
 [ ] 人工审批门禁用 Hook exit 2 而非仅文本规则                          [IR-4]
+[ ] 跨平台分发时使用 run-hook.cmd 包装器                              [跨平台]
+[ ] Hook 脚本仅依赖 bash 内建 + jq                                   [跨平台]
 ```

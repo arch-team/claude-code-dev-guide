@@ -1,0 +1,12 @@
+{
+  "name": "full-plugin",
+  "description": "A comprehensive example plugin demonstrating all component types",
+  "authors": [
+    {
+      "name": "DevGuide Examples"
+    }
+  ],
+  "marketplace": {
+    "tags": ["development", "example"]
+  }
+}

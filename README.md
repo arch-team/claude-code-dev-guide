@@ -24,21 +24,27 @@ Claude Code 会自动发现并加载 `CLAUDE.md`，按需读取其余文件。
 
 ```
 claude-code-dev-guide/
-├── CLAUDE.md                  # 入口（41 行）——文件索引 + 铁律索引 + 架构概览
+├── CLAUDE.md                  # 入口——文件索引 + 铁律索引 + 架构概览
 │
 ├── common/                    # 跨组件通用层
 │   ├── rules.md               #   铁律 IR-3,5,7,8,9 + 命名/隔离/Token 预算
 │   ├── principles.md          #   P1-P10 信息架构原则
-│   ├── anti-patterns.md       #   8 个跨组件反模式 + 诊断决策树
-│   └── quality.md             #   验证清单 + 命令库 + RED-GREEN-REFACTOR
+│   ├── anti-patterns.md       #   8 个跨组件反模式 + 诊断决策树 + 6 步调试法
+│   ├── quality.md             #   验证清单 + 测试迭代 + 命令库 + RED-GREEN-REFACTOR
+│   ├── patterns.md            #   6 种 Plugin 模式 + 决策树
+│   └── workflow.md            #   开发生命周期 6 阶段（规划到发布）
 │
-└── components/                # 按组件类型
-    ├── plugin.md              #   IR-1 + 目录布局 + plugin.json 规格
-    ├── skill.md               #   IR-2/CSO + frontmatter + 分拆模式
-    ├── hook.md                #   IR-4,6 + 事件表 + 脚本模板
-    ├── agent.md               #   frontmatter + memory + Task 调用
-    ├── command.md             #   frontmatter + 与 Skill 的区别
-    └── mcp.md                 #   .mcp.json + 环境变量 + Plugin 内嵌
+├── components/                # 按组件类型
+│   ├── plugin.md              #   IR-1 + 目录布局 + plugin.json 规格
+│   ├── skill.md               #   IR-2/CSO + frontmatter + 分拆模式
+│   ├── hook.md                #   IR-4,6 + 事件表 + 脚本 + 跨平台 Hook
+│   ├── agent.md               #   frontmatter + memory + Task 调用
+│   ├── command.md             #   frontmatter + 与 Skill 的区别
+│   └── mcp.md                 #   .mcp.json + 环境变量 + Plugin 内嵌
+│
+└── examples/                  # 可运行示例
+    ├── minimal-plugin/        #   模式 1：最小 Skill 知识库
+    └── full-plugin/           #   模式 5：全组件完整平台插件
 ```
 
 ## 信息架构
@@ -71,7 +77,7 @@ claude-code-dev-guide/
 
 ## Token 效率
 
-整套规范 11 文件共 **1331 行**，其中自动加载的 `CLAUDE.md` 仅 41 行。设计原则：
+整套规范 13 文件 + 2 个示例 Plugin，其中自动加载的 `CLAUDE.md` 仅入口路由。设计原则：
 
 - **自动加载最小化**：仅 CLAUDE.md（导航）在会话开始时加载
 - **按需加载**：组件文件在 Claude 实际开发该组件时才读取
